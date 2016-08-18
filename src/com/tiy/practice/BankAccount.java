@@ -5,7 +5,6 @@ package com.tiy.practice;
  */
 public class BankAccount {
     private String name;
-    private double initialBalance;
     private double balance;
 
     public double deposit(double amountToDeposit) {
@@ -18,6 +17,12 @@ public class BankAccount {
         return balance;
     }
 
+    public void printInfo() {
+        System.out.println("Printing bank account info...");
+        System.out.println("Name: " + name);
+        System.out.println("Balance: " + balance);
+    }
+
     //All getters and setters
     public String getName() {
         return name;
@@ -25,14 +30,6 @@ public class BankAccount {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getInitialBalance() {
-        return initialBalance;
-    }
-
-    public void setInitialBalance(double initialBalance) {
-        this.initialBalance = initialBalance;
     }
 
     public double getBalance() {
