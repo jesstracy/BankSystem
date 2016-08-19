@@ -19,8 +19,8 @@ public class BankAccount {
 
     public void printInfo() {
         System.out.println("Printing bank account info...");
-        System.out.println("Name: " + name);
-        System.out.println("Balance: " + balance);
+        System.out.println("\tName: " + name);
+        System.out.println("\tBalance: " + balance);
     }
 
     //All getters and setters
