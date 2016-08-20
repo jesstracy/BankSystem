@@ -123,14 +123,28 @@ public class Assignment9Runner {
             myBank.getCustomerList().add(myCustomer);
 //            System.out.println("Printing customer info........................");
 //            myCustomer.printInfo();
-            myBank.printInfo();
+//            myBank.printInfo();
+            //*****************************************************************************
 
         } else {
-            System.out.println("That user is on the list already. Display options");
+            System.out.println("Welcome back, " + userName + "!");
         }
-        //Display menu
-
-
+        //************** Display menu *******************************************
+        //Need to get the right customer from list
+        for (Customer customer : myBank.getCustomerList()) {
+            if (customer.getName().equals(userName)) {
+                myCustomer = customer;
+            }
+        }
+        System.out.println("Which account would you like to use?");
+        int counter = 1;
+        for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
+            System.out.println(" " + counter + ". " + account.getName());
+            counter++;
+        }
+        int acctChoice = myScanner.nextInt();
+        myScanner.nextLine();
+        System.out.println("You chose account " + acctChoice);
 
     }
 
