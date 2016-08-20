@@ -71,7 +71,7 @@ public class Bank {
         return totalInDeposits;
     }
 
-    //This method doesn't work for some reason.
+    //This method doesn't work for some reason. Keep getting exception that says concurrent modification or something
     public void addCustomer(Customer customer) {
         if (!customerList.isEmpty()) {
             for (Customer customerPerson : customerList) {

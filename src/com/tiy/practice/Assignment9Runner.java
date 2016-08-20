@@ -81,7 +81,50 @@ public class Assignment9Runner {
         }
         if (!onList) {
             //Add customer to bank with accounts!
-            System.out.println("That user is not on list! Need to add customer and accounts.");
+            System.out.print("Welcome new customer! How many accounts do you have? ");
+            int userNumAccounts = myScanner.nextInt();
+            myScanner.nextLine();
+            System.out.println("Entering info for " + userNumAccounts + " accounts...");
+            //*********** put in method *****************************************
+            for (int counter = 0; counter < userNumAccounts; counter++) {
+                System.out.println("Account " + (counter + 1) + ":");
+                BankAccount thisAccount;
+                while (true) {
+                    System.out.println("What type of account is this account?");
+                    System.out.println(" 1. Checking");
+                    System.out.println(" 2. Savings");
+                    System.out.println(" 3. Retirement");
+                    int typeAcct = myScanner.nextInt();
+                    myScanner.nextLine();
+                    if (typeAcct == 1) {
+                        thisAccount = new CheckingAccount();
+                        thisAccount.setName("Checking");
+                        break;
+                    } else if (typeAcct == 2) {
+                        thisAccount = new SavingsAccount();
+                        thisAccount.setName("Savings");
+                        break;
+                    } else if (typeAcct == 3) {
+                        thisAccount = new RetirementAccount();
+                        thisAccount.setName("Retirement");
+                        break;
+                    } else {
+                        System.out.println("Not valid.");
+                    }
+                }
+                System.out.print("What is the balance of this account? ");
+                double thisBalance = myScanner.nextDouble();
+                thisAccount.setBalance(thisBalance);
+                myScanner.nextLine();
+                // Link account to customer
+                myCustomer.addBankAccount(thisAccount);
+            }
+            // Add customer to bank
+            myBank.getCustomerList().add(myCustomer);
+//            System.out.println("Printing customer info........................");
+//            myCustomer.printInfo();
+            myBank.printInfo();
+
         } else {
             System.out.println("That user is on the list already. Display options");
         }
