@@ -129,22 +129,72 @@ public class Assignment9Runner {
         } else {
             System.out.println("Welcome back, " + userName + "!");
         }
-        //************** Display menu *******************************************
         //Need to get the right customer from list
         for (Customer customer : myBank.getCustomerList()) {
             if (customer.getName().equals(userName)) {
                 myCustomer = customer;
             }
         }
+        //************** Display menu *******************************************
         System.out.println("Which account would you like to use?");
         int counter = 1;
         for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
             System.out.println(" " + counter + ". " + account.getName());
             counter++;
         }
-        int acctChoice = myScanner.nextInt();
+        int acctChoiceInt = myScanner.nextInt();
         myScanner.nextLine();
-        System.out.println("You chose account " + acctChoice);
+        System.out.println("You chose account " + acctChoiceInt);
+        System.out.println();
+
+        //bankaccount they chose: myCustomer.getCustomerListOfAccounts().get(acctChoiceInt)
+        //CHECK IF THIS WILL UPDATE USER'S ACCOUNT THO
+        BankAccount acctChoice = myCustomer.getCustomerListOfAccounts().get(acctChoiceInt);
+
+        System.out.println("What would you like to do?");
+        System.out.println(" 1. Withdraw");
+        System.out.println(" 2. Deposit");
+        System.out.println(" 3. Transfer");
+        System.out.println(" 4. Select another account");
+        System.out.println(" 5. Exit");
+
+        int userChoseToDo = myScanner.nextInt();
+        myScanner.nextLine();
+
+        if (userChoseToDo == 1) {
+            System.out.print("How much would you like to withdraw? ");
+            double withdrawAmount = myScanner.nextDouble();
+            myScanner.nextLine();
+            acctChoice.withdraw(withdrawAmount);
+        } else if (userChoseToDo == 2) {
+            System.out.print("How much would you like to deposit? ");
+            double depositAmount = myScanner.nextDouble();
+            myScanner.nextLine();
+            acctChoice.deposit(depositAmount);
+        } else if (userChoseToDo == 3) {
+            System.out.println("To which account would you like to transfer money?");
+            int counter2 = 1;
+            for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
+                System.out.println(" " + counter2 + ". " + account.getName());
+                counter2++;
+            }
+            int transferChoiceInt = myScanner.nextInt();
+            myScanner.nextLine();
+            System.out.println("You chose to transfer to account " + transferChoiceInt);
+            System.out.print("How much would you like to transfer? ");
+            Double transferAmount = myScanner.nextDouble();
+            myScanner.nextLine();
+            //myCustomer.getCustomerListOfAccounts().get(transferChoiceInt) is the account to transfer to
+//            acctChoice.transfer(myCustomer.getCustomerListOfAccounts().get(transferChoiceInt));
+            acctChoice.withdraw(transferAmount);
+
+        } else if (userChoseToDo == 4) {
+
+        } else if (userChoseToDo == 5) {
+
+        } else {
+            System.out.println("Invalid.");
+        }
 
     }
 
