@@ -54,6 +54,19 @@ public class BankAccount {
         System.out.println("\tBalance: " + balance);
     }
 
+//    public void run() {
+//        boolean threadFlag = true;
+//        try {
+//            while (threadFlag) {
+//                Thread.sleep(10000);
+//                double newBalWithInterest = getBalance() * 1.05;
+//                setBalance(newBalWithInterest);
+//            }
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//        }
+//    }
+
     //All getters and setters
     public String getName() {
         return name;

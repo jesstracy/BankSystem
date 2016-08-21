@@ -3,7 +3,7 @@ package com.tiy.practice;
 /**
  * Created by jessicatracy on 8/18/16.
  */
-public class RetirementAccount extends BankAccount {
+public class RetirementAccount extends BankAccount implements Runnable {
     private double interestRate;
     private int sleepTime;
 
@@ -14,9 +14,15 @@ public class RetirementAccount extends BankAccount {
         sleepTime = 120000;
     }
 
-    public void getInterest() throws Exception {
-        Thread.sleep(sleepTime);
-        double newBalWithInterest = getBalance() * interestRate;
-        setBalance(newBalWithInterest);
+    public void run() {
+        try {
+            while (true) {
+                Thread.sleep(sleepTime);
+                double newBalWithInterest = getBalance() * interestRate;
+                setBalance(newBalWithInterest);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

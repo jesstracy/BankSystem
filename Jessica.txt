@@ -2,5 +2,3 @@ account.name=Checking
 account.balance=50.0
 account.name=Savings
 account.balance=400.0
-account.name=Retirement
-account.balance=1000.0

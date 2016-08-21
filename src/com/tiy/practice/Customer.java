@@ -37,6 +37,20 @@ public class Customer {
                     if (myAccount != null) {
 //                        this.addBankAccount(myAccount);
                         customerListOfAccounts.add(myAccount);
+            // $$$$$$$$$$$$$$$$ Thread part that is not working $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+//                        if (myAccount.getName().equals("Savings")) {
+                            // THIS CAST NOT WORKING!!!
+//                            SavingsAccount myAccountS = (SavingsAccount)myAccount;
+//                            Thread savingsThread = new Thread(myAccountS);
+//                            savingsThread.start();
+//                        }
+
+//                        if (myAccount.getName().equals("Retirement")) {
+//                            RetirementAccount myAccountR = (RetirementAccount)myAccount;
+//                            Thread retirementThread = new Thread(myAccountR);
+//                            retirementThread.start();
+//                        }
+            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     }
                 }
             }

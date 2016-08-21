@@ -1,8 +1,10 @@
 account.name=Retirement
-account.balance=1500.0
+account.balance=1000.0
 account.name=Checking
 account.balance=500.0
 account.name=Savings
-account.balance=2000.0
+account.balance=2500.0
 account.name=Savings
 account.balance=100.0
+account.name=Checking
+account.balance=20.0
