@@ -42,6 +42,12 @@ public class BankAccount {
         return balance;
     }
 
+    public double transfer(double amountToTransfer, BankAccount accountToTransferTo) {
+        accountToTransferTo.balance += amountToTransfer;
+        balance -= amountToTransfer;
+        return balance;
+    }
+
     public void printInfo() {
         System.out.println("Printing bank account info...");
         System.out.println("\tName: " + name);
