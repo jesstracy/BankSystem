@@ -12,10 +12,8 @@ public class Assignment9Runner {
     public static void main(String[] args) {
         System.out.println("Assignment9Runner running....");
         Assignment9Runner myRunner = new Assignment9Runner();
-//        myRunner.userInputToFileHardCode();
 //        myRunner.testBank();
         myRunner.runProgram();
-//        myRunner.createBankCustomersFromFile();
     }
 
 //    public void testBank() {
@@ -46,22 +44,41 @@ public class Assignment9Runner {
         Bank myBank = new Bank("Wells Fargo");
         //When done -- try putting this part in its own method!! *********************
         ArrayList<String> accountNameList = new ArrayList<String>();
-        try {
-            File myFile = new File("ListOfCustomers.txt");
-            Scanner fileScanner = new Scanner(myFile);
-            String currentLine = fileScanner.nextLine();
-            String[] splitCurrentLine = currentLine.split(",");
-            for (String name : splitCurrentLine) {
-                accountNameList.add(name);
+//        try {
+//            File myFile = new File("ListOfCustomers.txt");
+//            Scanner fileScanner = new Scanner(myFile);
+//            String currentLine = fileScanner.nextLine();
+//            String[] splitCurrentLine = currentLine.split(",");
+//            for (String name : splitCurrentLine) {
+//                accountNameList.add(name);
+//            }
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//        }
+//        for (String name : accountNameList) {
+//            Customer myCustomer = new Customer(name + ".txt", name);
+//            //If this gives problems, use below!!
+////            myBank.addCustomer(myCustomer);
+//            myBank.getCustomerList().add(myCustomer);
+//        }
+        File myFile = new File("ListOfCustomers.txt");
+        if (myFile.exists()) {
+            try {
+                Scanner fileScanner = new Scanner(myFile);
+                String currentLine = fileScanner.nextLine();
+                String[] splitCurrentLine = currentLine.split(",");
+                for (String name : splitCurrentLine) {
+                    accountNameList.add(name);
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        for (String name : accountNameList) {
-            Customer myCustomer = new Customer(name + ".txt", name);
-            //If this gives problems, use below!!
+            for (String name : accountNameList) {
+                Customer myCustomer = new Customer(name + ".txt", name);
+                //If this gives problems, use below!!
 //            myBank.addCustomer(myCustomer);
-            myBank.getCustomerList().add(myCustomer);
+                myBank.getCustomerList().add(myCustomer);
+            }
         }
         //*****************************************************************************
         myBank.printInfo();
@@ -98,15 +115,12 @@ public class Assignment9Runner {
                     myScanner.nextLine();
                     if (typeAcct == 1) {
                         thisAccount = new CheckingAccount();
-                        thisAccount.setName("Checking");
                         break;
                     } else if (typeAcct == 2) {
                         thisAccount = new SavingsAccount();
-                        thisAccount.setName("Savings");
                         break;
                     } else if (typeAcct == 3) {
                         thisAccount = new RetirementAccount();
-                        thisAccount.setName("Retirement");
                         break;
                     } else {
                         System.out.println("Not valid.");
@@ -144,10 +158,62 @@ public class Assignment9Runner {
                 System.out.println(" " + counter + ". " + account.getName() + " (Balance: " + account.getBalance() + ")");
                 counter++;
             }
+            System.out.println(" 0. Add a new account");
             int acctChoiceInt = myScanner.nextInt();
             myScanner.nextLine();
-            System.out.println("You chose account " + acctChoiceInt);
-            System.out.println();
+
+            boolean makeAccountFlag;
+            if (acctChoiceInt == 0) {
+                makeAccountFlag = true;
+            } else {
+                makeAccountFlag = false;
+            }
+            while (makeAccountFlag) {
+                //Make a new account!
+                BankAccount newAcct;
+                while (true) {
+                    System.out.println("What type of account is this account?");
+                    System.out.println(" 1. Checking");
+                    System.out.println(" 2. Savings");
+                    System.out.println(" 3. Retirement");
+                    int typeNewAcct = myScanner.nextInt();
+                    myScanner.nextLine();
+                    if (typeNewAcct == 1) {
+                        newAcct = new CheckingAccount();
+                        break;
+                    } else if (typeNewAcct == 2) {
+                        newAcct = new SavingsAccount();
+                        break;
+                    } else if (typeNewAcct == 3) {
+                        newAcct = new RetirementAccount();
+                        break;
+                    } else {
+                        System.out.println("Not valid.");
+                    }
+                }
+                System.out.print("What is the balance of this account? ");
+                double thisNewBalance = myScanner.nextDouble();
+                newAcct.setBalance(thisNewBalance);
+                myScanner.nextLine();
+                // Link account to customer
+                myCustomer.addBankAccount(newAcct);
+
+                //Ask again which account they would like to use. While
+                System.out.println("Which account would you like to use?");
+                int counterInLoop = 1;
+                for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
+                    System.out.println(" " + counterInLoop + ". " + account.getName() + " (Balance: " + account.getBalance() + ")");
+                    counterInLoop++;
+                }
+                System.out.println(" 0. Add a new account");
+                acctChoiceInt = myScanner.nextInt();
+                myScanner.nextLine();
+
+                if(acctChoiceInt > 0) {
+                    makeAccountFlag = false;
+                }
+            }
+
 
             //bankaccount they chose: myCustomer.getCustomerListOfAccounts().get(acctChoiceInt)
             //CHECK IF THIS WILL UPDATE USER'S ACCOUNT THO
