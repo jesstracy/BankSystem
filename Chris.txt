@@ -1,4 +1,4 @@
 account.name=Checking
-account.balance=25.0
+account.balance=50.0
 account.name=Savings
-account.balance=400.0
+account.balance=100.0

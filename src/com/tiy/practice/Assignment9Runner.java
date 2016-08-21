@@ -13,76 +13,19 @@ public class Assignment9Runner {
         System.out.println("Assignment9Runner running....");
         Assignment9Runner myRunner = new Assignment9Runner();
 //        myRunner.testBank();
-        myRunner.runProgram();
+        myRunner.runProgram(myRunner);
     }
 
-//    public void testBank() {
-//        //Need to account for if file doesn't exist? Or maybe just call method first time with nothing in it! Use counter in runner to keep track of if it's the first time run?
-//        //First, read in what customers we have from customer file.
-//        Bank myBank = new Bank("ListOfCustomers.txt", "Wells Fargo");
-//        //Make an array of customers
-//        String[] customerNameArray = new String[myBank.getCustomerList().size()];
-//        int counter = 0;
-//        for (Customer customer : myBank.getCustomerList()) {
-//
-//            //For each customer, we want to access their list of accounts.
-//            customerNameArray[counter] = customer.getName();
-//            counter++;
-//        }
-//        for (int index = 0; index < customerNameArray.length; index++) {
-//            //Here we are creating a new customer and putting their accounts in an array of accounts called customerListOfAccounts-- Need to add each one of these to the bank.
-//            Customer newCustomer = new Customer(customerNameArray[index] + ".txt", customerNameArray[index]);
-//            for (BankAccount account : newCustomer.getCustomerListOfAccounts()) {
-//                myBank.addBankAccount(newCustomer, account);
-//            }
-//        }
-//        myBank.printInfo();
-//    }
-
-    public void runProgram() {
+    public void runProgram(Assignment9Runner myRunner) {
         //Maybe don't add customers in bank constructor. Just put names in array.
         Bank myBank = new Bank("Wells Fargo");
-        //When done -- try putting this part in its own method!! *********************
-        ArrayList<String> accountNameList = new ArrayList<String>();
-//        try {
-//            File myFile = new File("ListOfCustomers.txt");
-//            Scanner fileScanner = new Scanner(myFile);
-//            String currentLine = fileScanner.nextLine();
-//            String[] splitCurrentLine = currentLine.split(",");
-//            for (String name : splitCurrentLine) {
-//                accountNameList.add(name);
-//            }
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//        }
-//        for (String name : accountNameList) {
-//            Customer myCustomer = new Customer(name + ".txt", name);
-//            //If this gives problems, use below!!
-////            myBank.addCustomer(myCustomer);
-//            myBank.getCustomerList().add(myCustomer);
-//        }
-        File myFile = new File("ListOfCustomers.txt");
-        if (myFile.exists()) {
-            try {
-                Scanner fileScanner = new Scanner(myFile);
-                String currentLine = fileScanner.nextLine();
-                String[] splitCurrentLine = currentLine.split(",");
-                for (String name : splitCurrentLine) {
-                    accountNameList.add(name);
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            for (String name : accountNameList) {
-                Customer myCustomer = new Customer(name + ".txt", name);
-                //If this gives problems, use below!!
-//            myBank.addCustomer(myCustomer);
-                myBank.getCustomerList().add(myCustomer);
-            }
-        }
-        //*****************************************************************************
-        myBank.printInfo();
-        System.out.println();
+
+        //Read in customer list from file (if exists) and create customer accounts
+        myRunner.storeFileInfoInBank(myBank);
+
+        //Take out once I know it's working
+//        myBank.printInfo();
+//        System.out.println();
 
         Scanner myScanner = new Scanner(System.in);
         System.out.print("Welcome to the bank. What is your first name? ");
@@ -102,43 +45,19 @@ public class Assignment9Runner {
             int userNumAccounts = myScanner.nextInt();
             myScanner.nextLine();
             System.out.println("Entering info for " + userNumAccounts + " accounts...");
-            //*********** put in method *****************************************
+
+            //**Get info for all customer's accounts, and link these account to customer***
             for (int counter = 0; counter < userNumAccounts; counter++) {
                 System.out.println("Account " + (counter + 1) + ":");
-                BankAccount thisAccount;
-                while (true) {
-                    System.out.println("What type of account is this account?");
-                    System.out.println(" 1. Checking");
-                    System.out.println(" 2. Savings");
-                    System.out.println(" 3. Retirement");
-                    int typeAcct = myScanner.nextInt();
-                    myScanner.nextLine();
-                    if (typeAcct == 1) {
-                        thisAccount = new CheckingAccount();
-                        break;
-                    } else if (typeAcct == 2) {
-                        thisAccount = new SavingsAccount();
-                        break;
-                    } else if (typeAcct == 3) {
-                        thisAccount = new RetirementAccount();
-                        break;
-                    } else {
-                        System.out.println("Not valid.");
-                    }
-                }
-                System.out.print("What is the balance of this account? ");
-                double thisBalance = myScanner.nextDouble();
-                thisAccount.setBalance(thisBalance);
-                myScanner.nextLine();
-                // Link account to customer
-                myCustomer.addBankAccount(thisAccount);
+                myRunner.takeNewAccountInfo(myCustomer);
             }
+            //*****************************************************************************
+
             // Add customer to bank
             myBank.getCustomerList().add(myCustomer);
 //            System.out.println("Printing customer info........................");
 //            myCustomer.printInfo();
 //            myBank.printInfo();
-            //*****************************************************************************
 
         } else {
             System.out.println("Welcome back, " + userName + "!");
@@ -151,6 +70,7 @@ public class Assignment9Runner {
         }
         boolean keepGoing = true;
         //************** Display menu *******************************************
+//        myRunner.displayAccountChoiceMenu();
         while (keepGoing) {
             System.out.println("Which account would you like to use?");
             int counter = 1;
@@ -169,34 +89,7 @@ public class Assignment9Runner {
                 makeAccountFlag = false;
             }
             while (makeAccountFlag) {
-                //Make a new account!
-                BankAccount newAcct;
-                while (true) {
-                    System.out.println("What type of account is this account?");
-                    System.out.println(" 1. Checking");
-                    System.out.println(" 2. Savings");
-                    System.out.println(" 3. Retirement");
-                    int typeNewAcct = myScanner.nextInt();
-                    myScanner.nextLine();
-                    if (typeNewAcct == 1) {
-                        newAcct = new CheckingAccount();
-                        break;
-                    } else if (typeNewAcct == 2) {
-                        newAcct = new SavingsAccount();
-                        break;
-                    } else if (typeNewAcct == 3) {
-                        newAcct = new RetirementAccount();
-                        break;
-                    } else {
-                        System.out.println("Not valid.");
-                    }
-                }
-                System.out.print("What is the balance of this account? ");
-                double thisNewBalance = myScanner.nextDouble();
-                newAcct.setBalance(thisNewBalance);
-                myScanner.nextLine();
-                // Link account to customer
-                myCustomer.addBankAccount(newAcct);
+                myRunner.takeNewAccountInfo(myCustomer);
 
                 //Ask again which account they would like to use. While
                 System.out.println("Which account would you like to use?");
@@ -219,98 +112,144 @@ public class Assignment9Runner {
             //CHECK IF THIS WILL UPDATE USER'S ACCOUNT THO
             BankAccount acctChoice = myCustomer.getCustomerListOfAccounts().get(acctChoiceInt - 1);
 
+
             //#################### Action method ###############################################
-            while (true) {
-                System.out.println("What would you like to do?");
-                System.out.println(" 1. Withdraw");
-                System.out.println(" 2. Deposit");
-                System.out.println(" 3. Transfer");
-                System.out.println(" 4. Print account info");
-                System.out.println(" 5. Print bank info");
-                System.out.println(" 6. Select another account");
-                System.out.println(" 7. Exit");
-
-                int userChoseToDo = myScanner.nextInt();
-                myScanner.nextLine();
-
-                if (userChoseToDo == 1) {
-                    System.out.println("Current balance: " + acctChoice.getBalance());
-                    System.out.print("How much would you like to withdraw? ");
-                    double withdrawAmount = myScanner.nextDouble();
-                    myScanner.nextLine();
-                    double newBal = acctChoice.withdraw(withdrawAmount);
-                    System.out.println("New balance: " + newBal);
-                    System.out.println();
-                } else if (userChoseToDo == 2) {
-                    System.out.println("Current balance: " + acctChoice.getBalance());
-                    System.out.print("How much would you like to deposit? ");
-                    double depositAmount = myScanner.nextDouble();
-                    myScanner.nextLine();
-                    double newBal = acctChoice.deposit(depositAmount);
-                    System.out.println("New balance: " + newBal);
-                    System.out.println();
-                } else if (userChoseToDo == 3) {
-                    System.out.println("Current balance: " + acctChoice.getBalance());
-                    System.out.print("How much would you like to transfer from this account? ");
-                    Double transferAmount = myScanner.nextDouble();
-                    myScanner.nextLine();
-                    System.out.println("To which account would you like to transfer the money?");
-                    int counter2 = 1;
-                    for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
-                        System.out.println(" " + counter2 + ". " + account.getName());
-                        counter2++;
-                    }
-                    int transferChoiceInt = myScanner.nextInt();
-                    myScanner.nextLine();
-                    //(myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1) is the account to transfer to
-                    System.out.println("You chose to transfer to account " + transferChoiceInt + ", which is a " + (myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1).getName() + " account."));
-                    System.out.println("Current balance in this account: " + (myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1).getBalance()));
-                    System.out.println("Transfer successful!\nNew balance in account from which you transferred: " + acctChoice.transfer(transferAmount, myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1)));
-                    System.out.println("New balance in account to which you transferred: " + (myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1).getBalance()));
-                    System.out.println();
-                } else if (userChoseToDo == 4) {
-                    acctChoice.printInfo();
-                } else if (userChoseToDo == 5) {
-                    myBank.printInfo();
-                } else if (userChoseToDo == 6) {
-                    //write to file here-- individual customer account info
-                    myCustomer.customerListOfAccountsToFile();
-                    break;
-                } else if (userChoseToDo == 7) {
-                    //write to file here-- individual customer account info
-                    myCustomer.customerListOfAccountsToFile();
-                    //write to file here-- customer list in whole bank
-                    myBank.customerListToFile();
-                    keepGoing = false;
-                    break;
-                } else {
-                    System.out.println("Invalid. Try again.");
-                }
-            }
-            //##############################################################################################################
+            //Ask user what they would like to do - display menu, and loop after.
+            //Store return value to keepGoing.
+            keepGoing = myRunner.displayAccountActionsMenu(acctChoice, myCustomer, myBank);
+            //##################################################################################
         }
         //******************************************************************************************************************
     }
 
-    public void testTransferMethod() {
-        Bank myBank = new Bank("Practice Bank");
-        Customer testCustomer = new Customer("Bob");
-        BankAccount bankAccount1 = new SavingsAccount();
-        bankAccount1.setName("Checking");
-        bankAccount1.setBalance(400);
-        testCustomer.addBankAccount(bankAccount1);
-        BankAccount bankAccount2 = new CheckingAccount();
-        bankAccount2.setName("Checking");
-        bankAccount2.setBalance(100);
-        testCustomer.addBankAccount(bankAccount2);
-        myBank.getCustomerList().add(testCustomer);
-
-        double newBal = bankAccount2.transfer(100, bankAccount1);
-        System.out.println("bankAccount2 should have 0: " + newBal);
-        System.out.println("bankAccount2 should have 0: " + testCustomer.getCustomerListOfAccounts().get(1).getBalance());
-        System.out.println("bankAccount1 should have 500: " + bankAccount1.getBalance());
-        System.out.println("bankAccount1 should have 500: " + testCustomer.getCustomerListOfAccounts().get(0).getBalance());
+    public void storeFileInfoInBank(Bank myBank) {
+        ArrayList<String> accountNameList = new ArrayList<String>();
+//
+        File myFile = new File("ListOfCustomers.txt");
+        if (myFile.exists()) {
+            try {
+                Scanner fileScanner = new Scanner(myFile);
+                String currentLine = fileScanner.nextLine();
+                String[] splitCurrentLine = currentLine.split(",");
+                for (String name : splitCurrentLine) {
+                    accountNameList.add(name);
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+            for (String name : accountNameList) {
+                Customer myCustomer = new Customer(name + ".txt", name);
+                //If this gives problems, use below!!
+//            myBank.addCustomer(myCustomer);
+                myBank.getCustomerList().add(myCustomer);
+            }
         }
+    }
+
+    public void takeNewAccountInfo(Customer myCustomer) {
+        Scanner myScanner = new Scanner(System.in);
+//        for (int counter = 0; counter < userNumAccounts; counter++) {
+//            System.out.println("Account " + (counter + 1) + ":");
+        BankAccount thisAccount;
+        while (true) {
+            System.out.println("What type of account is this account?");
+            System.out.println(" 1. Checking");
+            System.out.println(" 2. Savings");
+            System.out.println(" 3. Retirement");
+            int typeAcct = myScanner.nextInt();
+            myScanner.nextLine();
+            if (typeAcct == 1) {
+                thisAccount = new CheckingAccount();
+                break;
+            } else if (typeAcct == 2) {
+                thisAccount = new SavingsAccount();
+                break;
+            } else if (typeAcct == 3) {
+                thisAccount = new RetirementAccount();
+                break;
+            } else {
+                System.out.println("Not valid.");
+            }
+        }
+        System.out.print("What is the balance of this account? ");
+        double thisBalance = myScanner.nextDouble();
+        thisAccount.setBalance(thisBalance);
+        myScanner.nextLine();
+        // Link account to customer
+        myCustomer.addBankAccount(thisAccount);
+    }
+
+    public boolean displayAccountActionsMenu(BankAccount acctChoice, Customer myCustomer, Bank myBank) {
+        Scanner myScanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("What would you like to do?");
+            System.out.println(" 1. Withdraw");
+            System.out.println(" 2. Deposit");
+            System.out.println(" 3. Transfer");
+            System.out.println(" 4. Print account info");
+            System.out.println(" 5. Print bank info");
+            System.out.println(" 6. Select another account");
+            System.out.println(" 7. Exit");
+
+            int userChoseToDo = myScanner.nextInt();
+            myScanner.nextLine();
+
+            if (userChoseToDo == 1) {
+                System.out.println("Current balance: " + acctChoice.getBalance());
+                System.out.print("How much would you like to withdraw? ");
+                double withdrawAmount = myScanner.nextDouble();
+                myScanner.nextLine();
+                double newBal = acctChoice.withdraw(withdrawAmount);
+                System.out.println("New balance: " + newBal);
+                System.out.println();
+            } else if (userChoseToDo == 2) {
+                System.out.println("Current balance: " + acctChoice.getBalance());
+                System.out.print("How much would you like to deposit? ");
+                double depositAmount = myScanner.nextDouble();
+                myScanner.nextLine();
+                double newBal = acctChoice.deposit(depositAmount);
+                System.out.println("New balance: " + newBal);
+                System.out.println();
+            } else if (userChoseToDo == 3) {
+                System.out.println("Current balance: " + acctChoice.getBalance());
+                System.out.print("How much would you like to transfer from this account? ");
+                Double transferAmount = myScanner.nextDouble();
+                myScanner.nextLine();
+                System.out.println("To which account would you like to transfer the money?");
+                int counter2 = 1;
+                for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
+                    System.out.println(" " + counter2 + ". " + account.getName());
+                    counter2++;
+                }
+                int transferChoiceInt = myScanner.nextInt();
+                myScanner.nextLine();
+                //(myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1) is the account to transfer to
+                System.out.println("You chose to transfer to account " + transferChoiceInt + ", which is a " + (myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1).getName() + " account."));
+                System.out.println("Current balance in this account: " + (myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1).getBalance()));
+                System.out.println("Transfer successful!\nNew balance in account from which you transferred: " + acctChoice.transfer(transferAmount, myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1)));
+                System.out.println("New balance in account to which you transferred: " + (myCustomer.getCustomerListOfAccounts().get(transferChoiceInt - 1).getBalance()));
+                System.out.println();
+            } else if (userChoseToDo == 4) {
+                acctChoice.printInfo();
+            } else if (userChoseToDo == 5) {
+                myBank.printInfo();
+            } else if (userChoseToDo == 6) {
+                //write to file here-- individual customer account info
+                myCustomer.customerListOfAccountsToFile();
+                break;
+            } else if (userChoseToDo == 7) {
+                //write to file here-- individual customer account info
+                myCustomer.customerListOfAccountsToFile();
+                //write to file here-- customer list in whole bank
+                myBank.customerListToFile();
+                return false;
+//                break;
+            } else {
+                System.out.println("Invalid. Try again.");
+            }
+        }
+        return true;
+    }
 
     public void userInputToFileHardCode() {
         FileWriter listOfCustomersWriter = null;
