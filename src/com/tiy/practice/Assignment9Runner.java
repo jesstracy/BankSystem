@@ -12,7 +12,7 @@ public class Assignment9Runner {
     public static void main(String[] args) {
         System.out.println("Assignment9Runner running....");
         Assignment9Runner myRunner = new Assignment9Runner();
-        myRunner.userInputToFileHardCode();
+//        myRunner.userInputToFileHardCode();
 //        myRunner.testBank();
         myRunner.runProgram();
 //        myRunner.createBankCustomersFromFile();
@@ -60,8 +60,8 @@ public class Assignment9Runner {
         for (String name : accountNameList) {
             Customer myCustomer = new Customer(name + ".txt", name);
             //If this gives problems, use below!!
-            myBank.addCustomer(myCustomer);
-//            myBank.getCustomerList().add(myCustomer);
+//            myBank.addCustomer(myCustomer);
+            myBank.getCustomerList().add(myCustomer);
         }
         //*****************************************************************************
         myBank.printInfo();
@@ -160,8 +160,9 @@ public class Assignment9Runner {
                 System.out.println(" 2. Deposit");
                 System.out.println(" 3. Transfer");
                 System.out.println(" 4. Print account info");
-                System.out.println(" 5. Select another account");
-                System.out.println(" 6. Exit");
+                System.out.println(" 5. Print bank info");
+                System.out.println(" 6. Select another account");
+                System.out.println(" 7. Exit");
 
                 int userChoseToDo = myScanner.nextInt();
                 myScanner.nextLine();
@@ -203,12 +204,17 @@ public class Assignment9Runner {
                     System.out.println();
                 } else if (userChoseToDo == 4) {
                     acctChoice.printInfo();
-                }else if (userChoseToDo == 5) {
-                    //write to file here-- individual customer account info
-                    break;
+                } else if (userChoseToDo == 5) {
+                    myBank.printInfo();
                 } else if (userChoseToDo == 6) {
                     //write to file here-- individual customer account info
+                    myCustomer.customerListOfAccountsToFile();
+                    break;
+                } else if (userChoseToDo == 7) {
+                    //write to file here-- individual customer account info
+                    myCustomer.customerListOfAccountsToFile();
                     //write to file here-- customer list in whole bank
+                    myBank.customerListToFile();
                     keepGoing = false;
                     break;
                 } else {

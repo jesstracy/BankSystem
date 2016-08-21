@@ -90,7 +90,6 @@ public class Bank {
 
     //Just prints entire list of customers to file. Replaces old file.
     public void customerListToFile() {
-        // Put read first and store it, then can store into file before adding new stuff --> see version 2 below
         try {
             File customerListFile = new File("ListOfCustomers.txt");
             FileWriter customerListWriter = new FileWriter(customerListFile);

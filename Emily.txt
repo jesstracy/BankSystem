@@ -1,0 +1,4 @@
+account.name=Savings
+account.balance=500.0
+account.name=Checking
+account.balance=200.0
