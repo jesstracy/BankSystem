@@ -1,2 +1,0 @@
-account.name=Checking
-account.balance=500.0

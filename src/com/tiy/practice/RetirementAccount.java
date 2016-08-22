@@ -28,6 +28,7 @@ public class RetirementAccount extends BankAccount implements Runnable {
         try {
             while (threadsKeepRunning) {
 //            while (true) {
+//                System.out.println("Retirement thread running");
                 Thread.sleep(sleepTime);
                 double newBalWithInterest = getBalance() * interestRate;
                 setBalance(newBalWithInterest);

@@ -34,12 +34,22 @@ public class BankAccount {
 //    }
 
     public double deposit(double amountToDeposit) {
-        balance += amountToDeposit;
+        if (amountToDeposit < 0) {
+            System.out.println("You cannot deposit a negative amount of money!");
+        } else {
+            balance += amountToDeposit;
+        }
         return balance;
     }
 
     public double withdraw(double amountToWithdraw) {
-        balance -= amountToWithdraw;
+        if (amountToWithdraw < 0) {
+            System.out.println("You cannot withdraw a negative amount of money!");
+        } else if (balance - amountToWithdraw < 0) {
+            System.out.println("There is not enough money in your account!");
+        } else {
+            balance -= amountToWithdraw;
+        }
         return balance;
     }
 

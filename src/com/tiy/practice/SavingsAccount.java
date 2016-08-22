@@ -33,6 +33,7 @@ public class SavingsAccount extends BankAccount implements Runnable {
         try {
             while (threadsKeepRunning) {
 //            while (true) {
+//                System.out.println("Savings thread running");
                 Thread.sleep(sleepTime);
                 double newBalWithInterest = getBalance() * interestRate;
                 setBalance(newBalWithInterest);
