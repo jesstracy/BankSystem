@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class BankAccount {
     private String name;
     private double balance;
+//    private boolean threadsKeepRunning;
 
 //    public BankAccount() {
 //    }
@@ -83,4 +84,12 @@ public class BankAccount {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+//    public boolean isThreadsKeepRunning() {
+//        return threadsKeepRunning;
+//    }
+//
+//    public void setThreadsKeepRunning(boolean threadsKeepRunning) {
+//        this.threadsKeepRunning = threadsKeepRunning;
+//    }
 }

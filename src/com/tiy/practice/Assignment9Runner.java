@@ -60,7 +60,7 @@ public class Assignment9Runner {
 
         boolean keepGoing = true;
         //************** Display menu *******************************************
-        while (true) {
+        while (keepGoing) {
             int acctChoiceInt = userChooseWhichAccountToUse(myCustomer, myScanner);
             //If they chose to make a new account, make new account and then again let them choose which to use
             while (acctChoiceInt == 0) {
@@ -77,6 +77,22 @@ public class Assignment9Runner {
             if (!keepGoing) {
                 System.exit(0);
             }
+
+           // Try to turn off all savings and retirement threads
+//            if (!keepGoing) {
+//                for (Customer customer : myBank.getCustomerList()) {
+//                    for (BankAccount account : customer.getCustomerListOfAccounts()) {
+//                        if (account.getName().equals("Savings")) {
+//                            SavingsAccount accountS = (SavingsAccount)account;
+//                            accountS.setThreadsKeepRunning(false);
+//                        }
+//                        if (account.getName().equals("Retirement")) {
+//                            RetirementAccount accountR = (RetirementAccount)account;
+//                            accountR.setThreadsKeepRunning(false);
+//                        }
+//                    }
+//                }
+//            }
         }
         //******************************************************************************************************************
     }
@@ -116,7 +132,7 @@ public class Assignment9Runner {
     public void makeNewAccountWithUserInput(Customer myCustomer) {
         Scanner myScanner = new Scanner(System.in);
         boolean threadsKeepRunning = true;
-        
+
         BankAccount thisAccount;
         while (true) {
             System.out.println("What type of account is this account?");

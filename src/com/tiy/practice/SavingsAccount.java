@@ -3,21 +3,22 @@ package com.tiy.practice;
 /**
  * Created by jessicatracy on 8/18/16.
  */
-public class SavingsAccount extends BankAccount implements Runnable{
+public class SavingsAccount extends BankAccount implements Runnable {
     private double interestRate;
     private int sleepTime;
-    private boolean threadsKeepRunning;
+    private boolean threadsKeepRunning = true;
 
     public SavingsAccount() {
         super();
         setName("Savings");
         interestRate = 1.05;
         sleepTime = 10000;
+//        setThreadsKeepRunning(true);
     }
 
     public SavingsAccount(boolean threadsKeepRunning) {
         super();
-        this.threadsKeepRunning = threadsKeepRunning;
+        setThreadsKeepRunning(threadsKeepRunning);
         setName("Savings");
         interestRate = 1.05;
         sleepTime = 10000;
@@ -30,8 +31,8 @@ public class SavingsAccount extends BankAccount implements Runnable{
 
     public void run() {
         try {
-//            while (threadsKeepRunning) {
-            while (true) {
+            while (threadsKeepRunning) {
+//            while (true) {
                 Thread.sleep(sleepTime);
                 double newBalWithInterest = getBalance() * interestRate;
                 setBalance(newBalWithInterest);
@@ -40,8 +41,6 @@ public class SavingsAccount extends BankAccount implements Runnable{
             exception.printStackTrace();
         }
     }
-
-
 
     public boolean isThreadsKeepRunning() {
         return threadsKeepRunning;
