@@ -72,14 +72,32 @@ public class Bank {
     }
 
     //This method doesn't work for some reason. Keep getting exception that says concurrent modification or something
+//    public void addCustomer(Customer customer) {
+//        //If the customer list is not empty, check that the new person is not already on list, and if not add them!
+//        //TRY setting a boolean instead of adding and then add after if boolean is true.
+//        if (!customerList.isEmpty()) {
+//            for (Customer customerPerson : customerList) {
+//                if (!customerPerson.equals(customer)) {
+//                    customerList.add(customer);
+//                }
+//            }
+//        } else {
+//            customerList.add(customer);
+//        }
+//    }
+
     public void addCustomer(Customer customer) {
+        //If the customer list is not empty, check that the new person is not already on list, and if not add them!
+        //TRY setting a boolean instead of adding and then add after if boolean is true.
+        boolean isOnList = false;
         if (!customerList.isEmpty()) {
             for (Customer customerPerson : customerList) {
-                if (!customerPerson.equals(customer)) {
-                    customerList.add(customer);
+                if (customerPerson.equals(customer)) {
+                    isOnList = true;
                 }
             }
-        } else {
+        }
+        if (!isOnList) {
             customerList.add(customer);
         }
     }

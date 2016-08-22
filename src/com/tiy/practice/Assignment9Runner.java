@@ -17,112 +17,78 @@ public class Assignment9Runner {
     }
 
     public void runProgram(Assignment9Runner myRunner) {
-        //Maybe don't add customers in bank constructor. Just put names in array.
         Bank myBank = new Bank("Wells Fargo");
 
         //Read in customer list from file (if exists) and create customer accounts
         myRunner.storeFileInfoInBank(myBank);
 
-        //Take out once I know it's working
-//        myBank.printInfo();
-//        System.out.println();
-
         Scanner myScanner = new Scanner(System.in);
         System.out.print("Welcome to the bank. What is your first name? ");
         String userName = myScanner.nextLine();
         Customer myCustomer = new Customer(userName);
-        //Still have to check if already a customer here!!
-        boolean onList = false;
-        for (Customer people : myBank.getCustomerList()) {
-            //If their name is already on the list...
-            if (myCustomer.getName().equalsIgnoreCase(people.getName())) {
-                onList = true;
-            }
-        }
+
+        //Check if the user is already a customer!
+        boolean onList = checkIfCustomerIsOnlist(myBank, myCustomer);
+
+        //If the user is a new customer...
         if (!onList) {
-            //Add customer to bank with accounts!
+            //See how many accounts the user wants to enter
             System.out.print("Welcome new customer! How many accounts do you have? ");
             int userNumAccounts = myScanner.nextInt();
             myScanner.nextLine();
             System.out.println("Entering info for " + userNumAccounts + " accounts...");
 
-            //**Get info for all customer's accounts, and link these account to customer***
+            //Get info for all customer's accounts, and link these account to customer
             for (int counter = 0; counter < userNumAccounts; counter++) {
                 System.out.println("Account " + (counter + 1) + ":");
-                myRunner.takeNewAccountInfo(myCustomer);
+                makeNewAccountWithUserInput(myCustomer);
             }
-            //*****************************************************************************
 
             // Add customer to bank
-            myBank.getCustomerList().add(myCustomer);
-//            System.out.println("Printing customer info........................");
-//            myCustomer.printInfo();
-//            myBank.printInfo();
+            myBank.addCustomer(myCustomer);
 
-        } else {
+        } else { //If the customer is already on the Bank's customerList...
             System.out.println("Welcome back, " + userName + "!");
         }
-        //Need to get the right customer from list
+
+        //Get the right customer from Bank's customerList
         for (Customer customer : myBank.getCustomerList()) {
             if (customer.getName().equals(userName)) {
                 myCustomer = customer;
             }
         }
+
         boolean keepGoing = true;
         //************** Display menu *******************************************
-//        myRunner.displayAccountChoiceMenu();
         while (true) {
-            System.out.println("Which account would you like to use?");
-            int counter = 1;
-            for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
-                System.out.println(" " + counter + ". " + account.getName() + " (Balance: " + account.getBalance() + ")");
-                counter++;
+            int acctChoiceInt = userChooseWhichAccountToUse(myCustomer, myScanner);
+            //If they chose to make a new account, make new account and then again let them choose which to use
+            while (acctChoiceInt == 0) {
+                makeNewAccountWithUserInput(myCustomer);
+                acctChoiceInt = userChooseWhichAccountToUse(myCustomer, myScanner);
             }
-            System.out.println(" 0. Add a new account");
-            int acctChoiceInt = myScanner.nextInt();
-            myScanner.nextLine();
-
-            boolean makeAccountFlag;
-            if (acctChoiceInt == 0) {
-                makeAccountFlag = true;
-            } else {
-                makeAccountFlag = false;
-            }
-            while (makeAccountFlag) {
-                myRunner.takeNewAccountInfo(myCustomer);
-
-                //Ask again which account they would like to use. While
-                System.out.println("Which account would you like to use?");
-                int counterInLoop = 1;
-                for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
-                    System.out.println(" " + counterInLoop + ". " + account.getName() + " (Balance: " + account.getBalance() + ")");
-                    counterInLoop++;
-                }
-                System.out.println(" 0. Add a new account");
-                acctChoiceInt = myScanner.nextInt();
-                myScanner.nextLine();
-
-                if(acctChoiceInt > 0) {
-                    makeAccountFlag = false;
-                }
-            }
-
-
-            //bankaccount they chose: myCustomer.getCustomerListOfAccounts().get(acctChoiceInt)
-            //CHECK IF THIS WILL UPDATE USER'S ACCOUNT THO
             BankAccount acctChoice = myCustomer.getCustomerListOfAccounts().get(acctChoiceInt - 1);
-
 
             //#################### Action method ###############################################
             //Ask user what they would like to do - display menu, and loop after.
             //Store return value to keepGoing.
-            keepGoing = myRunner.displayAccountActionsMenu(acctChoice, myCustomer, myBank);
+            keepGoing = displayAccountActionsMenu(acctChoice, myCustomer, myBank);
             //##################################################################################
             if (!keepGoing) {
                 System.exit(0);
             }
         }
         //******************************************************************************************************************
+    }
+
+    public boolean checkIfCustomerIsOnlist(Bank myBank, Customer myCustomer) {
+        for (Customer people : myBank.getCustomerList()) {
+            //If their name is already on the list...
+            if (myCustomer.getName().equalsIgnoreCase(people.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void storeFileInfoInBank(Bank myBank) {
@@ -142,17 +108,15 @@ public class Assignment9Runner {
             }
             for (String name : accountNameList) {
                 Customer myCustomer = new Customer(name + ".txt", name);
-//            myBank.addCustomer(myCustomer);
-                myBank.getCustomerList().add(myCustomer);
+                myBank.addCustomer(myCustomer);
             }
         }
     }
 
-    public void takeNewAccountInfo(Customer myCustomer) {
+    public void makeNewAccountWithUserInput(Customer myCustomer) {
         Scanner myScanner = new Scanner(System.in);
         boolean threadsKeepRunning = true;
-//        for (int counter = 0; counter < userNumAccounts; counter++) {
-//            System.out.println("Account " + (counter + 1) + ":");
+        
         BankAccount thisAccount;
         while (true) {
             System.out.println("What type of account is this account?");
@@ -194,20 +158,41 @@ public class Assignment9Runner {
         myCustomer.addBankAccount(thisAccount);
     }
 
+
+    public int userChooseWhichAccountToUse(Customer myCustomer, Scanner myScanner) {
+        System.out.println("Which account would you like to use?");
+        int counter = 1;
+        for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
+            System.out.println(" " + counter + ". " + account.getName() + " (Balance: " + account.getBalance() + ")");
+            counter++;
+        }
+        System.out.println(" 0. Add a new account");
+        int acctChoiceInt = myScanner.nextInt();
+        myScanner.nextLine();
+
+        return acctChoiceInt;
+    }
+
+    public int askUserWhatAccountActionToDo(Scanner myScanner) {
+        System.out.println("What would you like to do?");
+        System.out.println(" 1. Withdraw");
+        System.out.println(" 2. Deposit");
+        System.out.println(" 3. Transfer");
+        System.out.println(" 4. Print account info");
+        System.out.println(" 5. Print bank info");
+        System.out.println(" 6. Select another account");
+        System.out.println(" 7. Exit");
+
+        int userChoseToDo = myScanner.nextInt();
+        myScanner.nextLine();
+
+        return userChoseToDo;
+    }
+
     public boolean displayAccountActionsMenu(BankAccount acctChoice, Customer myCustomer, Bank myBank) {
         Scanner myScanner = new Scanner(System.in);
         while (true) {
-            System.out.println("What would you like to do?");
-            System.out.println(" 1. Withdraw");
-            System.out.println(" 2. Deposit");
-            System.out.println(" 3. Transfer");
-            System.out.println(" 4. Print account info");
-            System.out.println(" 5. Print bank info");
-            System.out.println(" 6. Select another account");
-            System.out.println(" 7. Exit");
-
-            int userChoseToDo = myScanner.nextInt();
-            myScanner.nextLine();
+            int userChoseToDo = askUserWhatAccountActionToDo(myScanner);
 
             if (userChoseToDo == 1) {
                 System.out.println("Current balance: " + acctChoice.getBalance());
@@ -264,62 +249,5 @@ public class Assignment9Runner {
             }
         }
         return true;
-    }
-
-    public void userInputToFileHardCode() {
-        FileWriter listOfCustomersWriter = null;
-        try {
-            File listOfCustomersFile = new File("listOfCustomers.txt");
-            listOfCustomersWriter = new FileWriter(listOfCustomersFile);
-            listOfCustomersWriter.write("Jessica,");
-        } catch (Exception exception) {
-            System.out.println("Exception caught...");
-            exception.printStackTrace();
-        } finally {
-            if (listOfCustomersWriter != null) { // At first I had if it equals null, so it skipped right over this
-                                                 // and never closed, which is why it did not print anything bc it
-                                                 // thought I was going to write more. But listOfCustomersWriter is not
-                                                 // null bc I used it to write something (?)
-                try {
-                    listOfCustomersWriter.close();
-                } catch (Exception ex) {
-                    System.out.println("Exception caught...");
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-/*        FileWriter customerAccountListWriter = null;
-        try {
-            File customerAccountList = new File("jessicaAccounts.txt");
-            customerAccountListWriter = new FileWriter(customerAccountList);
-            customerAccountListWriter.write("account.name=Checking\naccount.balance=100.00\naccount.name=Savings\naccount.balance=200.00");
-        } catch (Exception exception) {
-            System.out.println("Exception caught...");
-            exception.printStackTrace();
-        } finally {
-            if (customerAccountListWriter != null) {
-                try {
-                    customerAccountListWriter.close();
-                } catch (Exception ex) {
-                    System.out.println("Exception caught...");
-                    ex.printStackTrace();
-                }
-            }
-        }
- */
-    }
-
-    public void createBankCustomersFromFile() {
-//        Bank myBank = new Bank("listOfCustomers.txt", "Wells Fargo");
-//        myBank.printInfo();
-        Bank myBank = new Bank();
-        myBank.setName("Wells Fargo");
-
-        Customer myCustomer = new Customer("jessicaAccounts.txt", "Jessica");
-//        myCustomer.printInfo();
-
-        myBank.addCustomer(myCustomer);
-        myBank.printInfo();
     }
 }
