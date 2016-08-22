@@ -71,7 +71,7 @@ public class Assignment9Runner {
         boolean keepGoing = true;
         //************** Display menu *******************************************
 //        myRunner.displayAccountChoiceMenu();
-        while (keepGoing) {
+        while (true) {
             System.out.println("Which account would you like to use?");
             int counter = 1;
             for (BankAccount account : myCustomer.getCustomerListOfAccounts()) {
@@ -118,6 +118,9 @@ public class Assignment9Runner {
             //Store return value to keepGoing.
             keepGoing = myRunner.displayAccountActionsMenu(acctChoice, myCustomer, myBank);
             //##################################################################################
+            if (!keepGoing) {
+                System.exit(0);
+            }
         }
         //******************************************************************************************************************
     }
@@ -139,7 +142,6 @@ public class Assignment9Runner {
             }
             for (String name : accountNameList) {
                 Customer myCustomer = new Customer(name + ".txt", name);
-                //If this gives problems, use below!!
 //            myBank.addCustomer(myCustomer);
                 myBank.getCustomerList().add(myCustomer);
             }
@@ -148,6 +150,7 @@ public class Assignment9Runner {
 
     public void takeNewAccountInfo(Customer myCustomer) {
         Scanner myScanner = new Scanner(System.in);
+        boolean threadsKeepRunning = true;
 //        for (int counter = 0; counter < userNumAccounts; counter++) {
 //            System.out.println("Account " + (counter + 1) + ":");
         BankAccount thisAccount;
@@ -163,9 +166,21 @@ public class Assignment9Runner {
                 break;
             } else if (typeAcct == 2) {
                 thisAccount = new SavingsAccount();
+                // *** new *****
+                SavingsAccount myAccountS = new SavingsAccount(threadsKeepRunning);
+                myAccountS = (SavingsAccount)thisAccount;
+                Thread savingsThread = new Thread(myAccountS);
+                thisAccount = myAccountS;
+                savingsThread.start();
                 break;
             } else if (typeAcct == 3) {
                 thisAccount = new RetirementAccount();
+                // ** new *****
+                RetirementAccount myAccountR = new RetirementAccount(threadsKeepRunning);
+                myAccountR = (RetirementAccount)thisAccount;
+                Thread retirementThread = new Thread(myAccountR);
+                thisAccount = myAccountR;
+                retirementThread.start();
                 break;
             } else {
                 System.out.println("Not valid.");

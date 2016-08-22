@@ -6,6 +6,7 @@ package com.tiy.practice;
 public class RetirementAccount extends BankAccount implements Runnable {
     private double interestRate;
     private int sleepTime;
+    private boolean threadsKeepRunning;
 
     public RetirementAccount() {
         super();
@@ -14,8 +15,17 @@ public class RetirementAccount extends BankAccount implements Runnable {
         sleepTime = 120000;
     }
 
+    public RetirementAccount(boolean threadsKeepRunning) {
+        super();
+        this.threadsKeepRunning = threadsKeepRunning;
+        setName("Retirement");
+        interestRate = 1.10;
+        sleepTime = 120000;
+    }
+
     public void run() {
         try {
+//            while (threadsKeepRunning) {
             while (true) {
                 Thread.sleep(sleepTime);
                 double newBalWithInterest = getBalance() * interestRate;
@@ -24,5 +34,13 @@ public class RetirementAccount extends BankAccount implements Runnable {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public boolean isThreadsKeepRunning() {
+        return threadsKeepRunning;
+    }
+
+    public void setThreadsKeepRunning(boolean threadsKeepRunning) {
+        this.threadsKeepRunning = threadsKeepRunning;
     }
 }
