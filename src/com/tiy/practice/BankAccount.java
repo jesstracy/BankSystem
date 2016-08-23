@@ -56,11 +56,11 @@ public class BankAccount {
         return balance;
     }
 
-    public double transferOld(double amountToTransfer, BankAccount accountToTransferTo) {
-        accountToTransferTo.balance += amountToTransfer;
-        balance -= amountToTransfer;
-        return balance;
-    }
+//    public double transferOld(double amountToTransfer, BankAccount accountToTransferTo) {
+//        accountToTransferTo.balance += amountToTransfer;
+//        balance -= amountToTransfer;
+//        return balance;
+//    }
 
     public double transfer(double amountToTransfer, BankAccount accountToTransferTo) {
         if (amountToTransfer < 0) {
