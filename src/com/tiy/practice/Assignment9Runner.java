@@ -9,11 +9,14 @@ import java.util.Scanner;
  * Created by jessicatracy on 8/18/16.
  */
 public class Assignment9Runner {
+    public static boolean runThreads = true;
+
     public static void main(String[] args) {
         System.out.println("Assignment9Runner running....");
         Assignment9Runner myRunner = new Assignment9Runner();
 //        myRunner.testBank();
         myRunner.runProgram(myRunner);
+        System.exit(0);
     }
 
     public void runProgram(Assignment9Runner myRunner) {
@@ -74,25 +77,6 @@ public class Assignment9Runner {
             //Store return value to keepGoing.
             keepGoing = displayAccountActionsMenu(acctChoice, myCustomer, myBank);
             //##################################################################################
-            if (!keepGoing) {
-                System.exit(0);
-            }
-
-           // Try to turn off all savings and retirement threads
-//            if (!keepGoing) {
-//                for (Customer customer : myBank.getCustomerList()) {
-//                    for (BankAccount account : customer.getCustomerListOfAccounts()) {
-//                        if (account.getName().equals("Savings")) {
-//                            SavingsAccount accountS = (SavingsAccount)account;
-//                            accountS.setThreadsKeepRunning(false);
-//                        }
-//                        if (account.getName().equals("Retirement")) {
-//                            RetirementAccount accountR = (RetirementAccount)account;
-//                            accountR.setThreadsKeepRunning(false);
-//                        }
-//                    }
-//                }
-//            }
         }
         //******************************************************************************************************************
     }
@@ -147,7 +131,7 @@ public class Assignment9Runner {
             } else if (typeAcct == 2) {
                 thisAccount = new SavingsAccount();
                 // *** new *****
-                SavingsAccount myAccountS = new SavingsAccount(threadsKeepRunning);
+                SavingsAccount myAccountS = new SavingsAccount();
                 myAccountS = (SavingsAccount)thisAccount;
                 Thread savingsThread = new Thread(myAccountS);
                 thisAccount = myAccountS;
@@ -156,7 +140,7 @@ public class Assignment9Runner {
             } else if (typeAcct == 3) {
                 thisAccount = new RetirementAccount();
                 // ** new *****
-                RetirementAccount myAccountR = new RetirementAccount(threadsKeepRunning);
+                RetirementAccount myAccountR = new RetirementAccount();
                 myAccountR = (RetirementAccount)thisAccount;
                 Thread retirementThread = new Thread(myAccountR);
                 thisAccount = myAccountR;
@@ -278,6 +262,7 @@ public class Assignment9Runner {
                 myCustomer.customerListOfAccountsToFile();
                 //write to file here-- customer list in whole bank
                 myBank.customerListToFile();
+                Assignment9Runner.runThreads = false;
                 return false;
 //                break;
             } else {

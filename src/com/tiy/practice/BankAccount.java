@@ -9,29 +9,7 @@ import java.util.Scanner;
 public class BankAccount {
     private String name;
     private double balance;
-//    private boolean threadsKeepRunning;
 
-//    public BankAccount() {
-//    }
-//
-//    public BankAccount(String fileName) {
-//        try {
-//            File customerAccountFile = new File(fileName);
-//            Scanner fileScanner = new Scanner(customerAccountFile);
-//            while (fileScanner.hasNext()) {
-//                String currentLine = fileScanner.nextLine();
-//                if (currentLine.startsWith("account.name")) {
-//                    String[] myArray = currentLine.split("=");
-//                    this.name = myArray[1];
-//                } else if (currentLine.startsWith("account.balance")) {
-//                    String[] myArray = currentLine.split("=");
-//                    this.balance = Double.valueOf(myArray[1]);
-//                }
-//            }
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//        }
-//    }
 
     public double deposit(double amountToDeposit) {
         if (amountToDeposit < 0) {
@@ -87,19 +65,6 @@ public class BankAccount {
         System.out.println("\tBalance: " + balance);
     }
 
-//    public void run() {
-//        boolean threadFlag = true;
-//        try {
-//            while (threadFlag) {
-//                Thread.sleep(10000);
-//                double newBalWithInterest = getBalance() * 1.05;
-//                setBalance(newBalWithInterest);
-//            }
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//        }
-//    }
-
     //All getters and setters
     public String getName() {
         return name;
@@ -116,12 +81,4 @@ public class BankAccount {
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
-//    public boolean isThreadsKeepRunning() {
-//        return threadsKeepRunning;
-//    }
-//
-//    public void setThreadsKeepRunning(boolean threadsKeepRunning) {
-//        this.threadsKeepRunning = threadsKeepRunning;
-//    }
 }
