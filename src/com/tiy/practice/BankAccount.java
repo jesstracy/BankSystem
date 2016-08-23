@@ -36,6 +36,7 @@ public class BankAccount {
     public double deposit(double amountToDeposit) {
         if (amountToDeposit < 0) {
             System.out.println("You cannot deposit a negative amount of money!");
+            System.out.println("Deposit canceled.");
         } else {
             balance += amountToDeposit;
         }
@@ -45,18 +46,39 @@ public class BankAccount {
     public double withdraw(double amountToWithdraw) {
         if (amountToWithdraw < 0) {
             System.out.println("You cannot withdraw a negative amount of money!");
+            System.out.println("Withdrawal canceled.");
         } else if (balance - amountToWithdraw < 0) {
             System.out.println("There is not enough money in your account!");
+            System.out.println("Withdrawal canceled.");
         } else {
             balance -= amountToWithdraw;
         }
         return balance;
     }
 
-    public double transfer(double amountToTransfer, BankAccount accountToTransferTo) {
+    public double transferOld(double amountToTransfer, BankAccount accountToTransferTo) {
         accountToTransferTo.balance += amountToTransfer;
         balance -= amountToTransfer;
         return balance;
+    }
+
+    public double transfer(double amountToTransfer, BankAccount accountToTransferTo) {
+        if (amountToTransfer < 0) {
+            System.out.println("You cannot transfer a negative amount of money!");
+            System.out.println("Transfer canceled.");
+            return balance;
+        } else if (balance - amountToTransfer < 0) {
+            System.out.println("There is not enough money in your account to transfer that amount!");
+            System.out.println("Transfer canceled.");
+            return balance;
+        } else {
+            System.out.println("You chose to transfer to: " + accountToTransferTo.getName() + "(balance: " + accountToTransferTo.getBalance() + ")");
+            System.out.println("Transfer successful!");
+            accountToTransferTo.balance += amountToTransfer;
+            balance -= amountToTransfer;
+            System.out.println("New balance in the account you transferred to: " + accountToTransferTo.getBalance());
+            return balance;
+        }
     }
 
     public void printInfo() {
