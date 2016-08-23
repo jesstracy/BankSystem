@@ -19,50 +19,55 @@ public class Customer {
         this.name = name;
     }
 
-    public Customer(String fileName, String name) {
-        boolean threadsKeepRunning = true;
+    public Customer(String fileName, String name, long startRunTime) {
         this.name = name;
         try {
             File customerAccountFile = new File(fileName);
             Scanner fileScanner = new Scanner(customerAccountFile);
 //            BankAccount myAccount = new BankAccount();
             BankAccount myAccount = null;
+            String accountName;
+            double accountBalance;
+            String currentLine;
+            String[] myArray;
             while (fileScanner.hasNext()) {
-                String currentLine = fileScanner.nextLine();
-                if (currentLine.startsWith("account.name")) {
-//                    myAccount = new BankAccount();
-                    String[] myArray = currentLine.split("=");
-//                    myAccount.setName(myArray[1]);
-                    //**** NEW PART *************** Have to initialize to right class AFTER you know what type!!
-                    String accountName = myArray[1];
-                    if (accountName.equals("Checking")) {
-                        myAccount = new CheckingAccount();
-                    } else if (accountName.equals("Savings")) {
-                        myAccount = new SavingsAccount();
-                    } else if (accountName.equals("Retirement")) {
-                        myAccount = new RetirementAccount();
-                    }
-                    //*****************************
-                } else if (currentLine.startsWith("account.balance")) {
-                    String[] myArray = currentLine.split("=");
-                    myAccount.setBalance(Double.valueOf(myArray[1]));
-                    if (myAccount != null) {
+                currentLine = fileScanner.nextLine();
+                myArray = currentLine.split("=");
+                accountName = myArray[1];
+
+
+                currentLine = fileScanner.nextLine();
+                myArray = currentLine.split("=");
+                accountBalance = Double.valueOf(myArray[1]);
+
+                if (accountName.equals("Checking")) {
+                    myAccount = new CheckingAccount(accountBalance);
+                } else if (accountName.equals("Savings")) {
+//                    myAccount = new SavingsAccount(startRunTime, accountBalance);
+                    myAccount = new SavingsAccount(accountBalance);
+                } else if (accountName.equals("Retirement")) {
+//                    myAccount = new RetirementAccount(startRunTime, accountBalance);
+                    myAccount = new RetirementAccount(accountBalance);
+                }
+
+
+                if (myAccount != null) {
 //                        this.addBankAccount(myAccount);
-                        customerListOfAccounts.add(myAccount);
-                        // Start threads for savings and retirement accounts
-                        if (myAccount.getName().equals("Savings")) {
-                            SavingsAccount myAccountS = (SavingsAccount)myAccount;
-                            Thread savingsThread = new Thread(myAccountS);
-                            savingsThread.start();
-                        }
-                        if (myAccount.getName().equals("Retirement")) {
-                            RetirementAccount myAccountR = (RetirementAccount)myAccount;
-                            Thread retirementThread = new Thread(myAccountR);
-                            retirementThread.start();
-                        }
+                    customerListOfAccounts.add(myAccount);
+                    // Start threads for savings and retirement accounts
+                    if (myAccount.getName().equals("Savings")) {
+                        SavingsAccount myAccountS = (SavingsAccount)myAccount;
+                        Thread savingsThread = new Thread(myAccountS);
+                        savingsThread.start();
+                    }
+                    if (myAccount.getName().equals("Retirement")) {
+                        RetirementAccount myAccountR = (RetirementAccount)myAccount;
+                        Thread retirementThread = new Thread(myAccountR);
+                        retirementThread.start();
                     }
                 }
             }
+
         } catch (Exception exception) {
             exception.printStackTrace();
         }

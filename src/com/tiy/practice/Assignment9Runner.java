@@ -13,6 +13,7 @@ public class Assignment9Runner {
 
     public static void main(String[] args) {
         System.out.println("Assignment9Runner running....");
+
         Assignment9Runner myRunner = new Assignment9Runner();
 //        myRunner.testBank();
         myRunner.runProgram(myRunner);
@@ -20,10 +21,11 @@ public class Assignment9Runner {
     }
 
     public void runProgram(Assignment9Runner myRunner) {
+        long startRunTime = System.nanoTime();
         Bank myBank = new Bank("Wells Fargo");
 
         //Read in customer list from file (if exists) and create customer accounts
-        myRunner.storeFileInfoInBank(myBank);
+        myRunner.readFileInfoInBank(myBank, startRunTime);
 
         Scanner myScanner = new Scanner(System.in);
         System.out.print("Welcome to the bank. What is your first name? ");
@@ -91,7 +93,7 @@ public class Assignment9Runner {
         return false;
     }
 
-    public void storeFileInfoInBank(Bank myBank) {
+    public void readFileInfoInBank(Bank myBank, long startRunTime) {
         ArrayList<String> accountNameList = new ArrayList<String>();
 //
         File myFile = new File("ListOfCustomers.txt");
@@ -107,7 +109,7 @@ public class Assignment9Runner {
                 exception.printStackTrace();
             }
             for (String name : accountNameList) {
-                Customer myCustomer = new Customer(name + ".txt", name);
+                Customer myCustomer = new Customer(name + ".txt", name, startRunTime);
                 myBank.addCustomer(myCustomer);
             }
         }
@@ -263,6 +265,8 @@ public class Assignment9Runner {
                 //write to file here-- customer list in whole bank
                 myBank.customerListToFile();
                 Assignment9Runner.runThreads = false;
+//                Assignment9Runner.finishRunTime = Instant.now();
+                writeFinishRunTimeFile();
                 return false;
 //                break;
             } else {
@@ -270,5 +274,18 @@ public class Assignment9Runner {
             }
         }
         return true;
+    }
+
+    public void writeFinishRunTimeFile() {
+        try {
+            long now = System.nanoTime();
+            File myFinishRunTimeFile = new File("finishRunTime.txt");
+            FileWriter myFinishRunTimeWriter = new FileWriter(myFinishRunTimeFile);
+//            myFinishRunTimeWriter.write(Instant.now().toString());
+            myFinishRunTimeWriter.write("" + now);
+            myFinishRunTimeWriter.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

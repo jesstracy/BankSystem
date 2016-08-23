@@ -9,4 +9,10 @@ public class CheckingAccount extends BankAccount {
         super();
         setName("Checking");
     }
+
+    public CheckingAccount(double balance) {
+        super();
+        setName("Checking");
+        this.setBalance(balance);
+    }
 }

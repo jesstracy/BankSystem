@@ -1,4 +1,2 @@
-account.name=Checking
-account.balance=100.0
 account.name=Retirement
-account.balance=2.0
+account.balance=400.0
