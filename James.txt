@@ -1,2 +1,0 @@
-account.name=Retirement
-account.balance=400.0

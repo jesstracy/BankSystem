@@ -43,11 +43,13 @@ public class Customer {
                 if (accountName.equals("Checking")) {
                     myAccount = new CheckingAccount(accountBalance);
                 } else if (accountName.equals("Savings")) {
-//                    myAccount = new SavingsAccount(startRunTime, accountBalance);
-                    myAccount = new SavingsAccount(accountBalance);
+                    //*************************************************************
+                    myAccount = new SavingsAccount(startRunTime, accountBalance);
+//                    myAccount = new SavingsAccount(accountBalance);
                 } else if (accountName.equals("Retirement")) {
-//                    myAccount = new RetirementAccount(startRunTime, accountBalance);
-                    myAccount = new RetirementAccount(accountBalance);
+                    //*************************************************************
+                    myAccount = new RetirementAccount(startRunTime, accountBalance);
+//                    myAccount = new RetirementAccount(accountBalance);
                 }
 
 

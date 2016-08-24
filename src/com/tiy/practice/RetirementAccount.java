@@ -40,7 +40,7 @@ public class RetirementAccount extends BankAccount implements Runnable {
         //read in finish run time from file.
         this.finishRunTime = readFinishTime();
         long timeElapsed = startRunTime - finishRunTime;
-        double timeElapsedInMilliseconds = (timeElapsed / 1000000);
+        double timeElapsedInMilliseconds = (double)timeElapsed / 1000000;
         double numIntervals = (timeElapsedInMilliseconds / sleepTime);
         for (int counter = 0; counter < numIntervals; counter++) {
             this.setBalance(this.getBalance() * interestRate);
@@ -51,7 +51,8 @@ public class RetirementAccount extends BankAccount implements Runnable {
         try {
             File myFinishTimeFile = new File("finishRunTime.txt");
             Scanner myFileScanner = new Scanner(myFinishTimeFile);
-            long finishRunTime = Long.valueOf(myFileScanner.nextLong());
+            String currentLine = myFileScanner.nextLine();
+            finishRunTime = Long.valueOf(currentLine);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
