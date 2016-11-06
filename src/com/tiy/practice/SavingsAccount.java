@@ -36,12 +36,9 @@ public class SavingsAccount extends BankAccount implements Runnable {
         interestRate = 1.05;
         sleepTime = 10000;
         this.startRunTime = startRunTime;
-//        System.out.println("Start run time: " + startRunTime);
         //read in finish run time from file.
         this.finishRunTime = readFinishTime();
-//        System.out.println("Finish run time: " + finishRunTime);
         long timeElapsed = startRunTime - finishRunTime;
-//        System.out.println("Elapsed time: " + timeElapsed);
         double timeElapsedInMilliseconds = (double)timeElapsed / 1000000;
         double numIntervals = (timeElapsedInMilliseconds / sleepTime);
         for (int counter = 0; counter < numIntervals; counter++) {

@@ -1,0 +1,6 @@
+account.name=Checking
+account.balance=1000000.0
+account.name=Savings
+account.balance=2206.795856326022
+account.name=Retirement
+account.balance=4000.0
